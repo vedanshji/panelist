@@ -3,418 +3,40 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Panelist — Interviews, on demand. Signal, on delivery.</title>
-<meta name="description" content="Panelist gives hiring teams access to a vetted network of expert interviewers who screen candidates against your JD and deliver structured, evidence-based feedback." />
+<title>Panelist — Interviews on demand. Signal on delivery.</title>
+<meta name="description" content="Panelist connects hiring teams with a vetted network of expert interviewers. Matched to your JD, calibrated to your bar, delivering structured feedback in under 24 hours." />
+<meta name="theme-color" content="#05060a" />
+
+<!-- Open Graph / social share -->
+<meta property="og:title" content="Panelist — Interviews on demand. Signal on delivery." />
+<meta property="og:description" content="A vetted network of expert interviewers. Structured feedback in under 24 hours." />
+<meta property="og:image" content="/og-image.png" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://panelist.io/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Panelist — Interviews on demand." />
+<meta name="twitter:description" content="A vetted network of expert interviewers. Structured feedback in under 24 hours." />
+<meta name="twitter:image" content="/og-image.png" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #05060a;
-    --bg-2: #0a0c14;
-    --surface: #10131c;
-    --surface-2: #171b28;
-    --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.14);
-    --text: #f4f5fa;
-    --text-dim: #a0a4b8;
-    --text-mute: #6b7085;
-    --brand: #7c5cff;
-    --brand-2: #22d3ee;
-    --brand-3: #ff5cf4;
-    --accent-green: #4ade80;
-    --grad: linear-gradient(120deg, #7c5cff 0%, #22d3ee 50%, #ff5cf4 100%);
-    --grad-soft: linear-gradient(120deg, rgba(124,92,255,.15), rgba(34,211,238,.15), rgba(255,92,244,.15));
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  h1, h2, h3, h4 { font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
-  a { color: inherit; text-decoration: none; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-  /* ---- Background aurora ---- */
-  .aurora {
-    position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
-  }
-  .aurora::before, .aurora::after {
-    content: ""; position: absolute; width: 800px; height: 800px; border-radius: 50%;
-    filter: blur(120px); opacity: 0.35; animation: float 20s ease-in-out infinite;
-  }
-  .aurora::before { background: radial-gradient(circle, #7c5cff 0%, transparent 70%); top: -200px; left: -200px; }
-  .aurora::after { background: radial-gradient(circle, #22d3ee 0%, transparent 70%); bottom: -200px; right: -200px; animation-delay: -10s; }
-  .aurora .blob-3 {
-    position: absolute; width: 600px; height: 600px; border-radius: 50%;
-    background: radial-gradient(circle, #ff5cf4 0%, transparent 70%);
-    filter: blur(120px); opacity: 0.2; top: 40%; left: 50%; transform: translate(-50%, -50%);
-    animation: float 25s ease-in-out infinite -5s;
-  }
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(50px, -50px) scale(1.1); }
-    66% { transform: translate(-30px, 30px) scale(0.95); }
-  }
-
-  /* ---- Grid backdrop ---- */
-  .grid-bg {
-    position: fixed; inset: 0; z-index: -1; opacity: 0.4;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-  }
-
-  /* ---- Navigation ---- */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 16px 0;
-    backdrop-filter: blur(20px);
-    background: rgba(5,6,10,0.7);
-    border-bottom: 1px solid transparent;
-    transition: all 0.3s ease;
-  }
-  nav.scrolled { border-bottom-color: var(--border); background: rgba(5,6,10,0.9); }
-  nav .container { display: flex; align-items: center; justify-content: space-between; }
-  .logo {
-    display: flex; align-items: center; gap: 10px;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px;
-  }
-  .logo-mark {
-    width: 32px; height: 32px; border-radius: 8px; background: var(--grad);
-    display: grid; place-items: center; font-weight: 800; color: white;
-    box-shadow: 0 4px 20px rgba(124,92,255,0.4);
-  }
-  .nav-links { display: flex; gap: 32px; align-items: center; }
-  .nav-links a { color: var(--text-dim); font-size: 14px; font-weight: 500; transition: color .2s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-cta { display: flex; gap: 12px; align-items: center; }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-  }
-
-  /* ---- Buttons ---- */
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 22px; border-radius: 10px; font-weight: 600; font-size: 14px;
-    cursor: pointer; transition: all .2s ease; border: none;
-    font-family: inherit; text-decoration: none;
-  }
-  .btn-primary {
-    background: var(--grad); color: white; position: relative;
-    box-shadow: 0 4px 24px rgba(124,92,255,0.35);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,92,255,0.5); }
-  .btn-ghost {
-    background: rgba(255,255,255,0.05); color: var(--text);
-    border: 1px solid var(--border-strong);
-  }
-  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
-  .btn-lg { padding: 16px 28px; font-size: 15px; }
-
-  /* ---- Hero ---- */
-  .hero {
-    padding: 180px 0 120px;
-    text-align: center;
-    position: relative;
-  }
-  .badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 14px; border-radius: 999px;
-    background: rgba(255,255,255,0.05); border: 1px solid var(--border-strong);
-    font-size: 13px; color: var(--text-dim); margin-bottom: 32px;
-    animation: fadeInUp .8s ease .1s both;
-  }
-  .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 12px var(--accent-green); }
-  .hero h1 {
-    font-size: clamp(40px, 7vw, 84px);
-    margin-bottom: 24px;
-    animation: fadeInUp .8s ease .2s both;
-  }
-  .hero h1 .grad {
-    background: var(--grad);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-  }
-  .hero p {
-    font-size: clamp(17px, 2vw, 20px); color: var(--text-dim);
-    max-width: 640px; margin: 0 auto 40px;
-    animation: fadeInUp .8s ease .3s both;
-  }
-  .hero-ctas {
-    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-    animation: fadeInUp .8s ease .4s both;
-  }
-  .hero-stats {
-    margin-top: 80px;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
-    max-width: 900px; margin-left: auto; margin-right: auto;
-    animation: fadeInUp .8s ease .5s both;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px;
-    background: var(--grad); -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; margin-bottom: 4px;
-  }
-  .stat-label { color: var(--text-mute); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; }
-  @media (max-width: 640px) {
-    .hero-stats { grid-template-columns: repeat(2, 1fr); }
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ---- Section shared ---- */
-  section { padding: 100px 0; position: relative; }
-  .section-head { text-align: center; margin-bottom: 64px; }
-  .eyebrow {
-    display: inline-block; text-transform: uppercase; letter-spacing: 0.15em;
-    font-size: 12px; font-weight: 600; color: var(--brand-2); margin-bottom: 16px;
-  }
-  .section-head h2 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 16px; }
-  .section-head p { color: var(--text-dim); font-size: 18px; max-width: 600px; margin: 0 auto; }
-
-  /* ---- Logos row ---- */
-  .logos {
-    padding: 60px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  }
-  .logos-inner {
-    display: flex; align-items: center; justify-content: space-around;
-    flex-wrap: wrap; gap: 40px;
-    filter: grayscale(1); opacity: 0.55;
-  }
-  .logos-inner span {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-    font-size: 22px; color: var(--text-dim);
-  }
-  .logos-title { text-align: center; color: var(--text-mute); font-size: 13px; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 32px; }
-
-  /* ---- How it works ---- */
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
-  .step {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; padding: 32px 24px; position: relative;
-    transition: all .3s ease;
-  }
-  .step:hover { border-color: var(--border-strong); transform: translateY(-4px); }
-  .step-num {
-    font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
-    color: var(--brand-2); margin-bottom: 20px; display: block;
-  }
-  .step h3 { font-size: 20px; margin-bottom: 12px; }
-  .step p { color: var(--text-dim); font-size: 14px; }
-  .step-icon {
-    width: 44px; height: 44px; border-radius: 12px;
-    background: var(--grad-soft); border: 1px solid var(--border-strong);
-    display: grid; place-items: center; margin-bottom: 20px;
-    font-size: 22px;
-  }
-  @media (max-width: 900px) { .steps { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 500px) { .steps { grid-template-columns: 1fr; } }
-
-  /* ---- Features grid (bento) ---- */
-  .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .bento-item {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px; position: relative; overflow: hidden;
-    transition: all .3s ease;
-  }
-  .bento-item:hover { border-color: var(--border-strong); transform: translateY(-4px); }
-  .bento-item.wide { grid-column: span 2; }
-  .bento-item h3 { font-size: 22px; margin-bottom: 12px; }
-  .bento-item p { color: var(--text-dim); font-size: 15px; }
-  .bento-icon {
-    width: 48px; height: 48px; border-radius: 12px;
-    background: linear-gradient(135deg, rgba(124,92,255,0.25), rgba(34,211,238,0.15));
-    border: 1px solid var(--border-strong);
-    display: grid; place-items: center; margin-bottom: 20px; font-size: 24px;
-  }
-  .bento-item::after {
-    content: ""; position: absolute; top: 0; right: 0; width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(124,92,255,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  @media (max-width: 900px) {
-    .bento { grid-template-columns: 1fr; }
-    .bento-item.wide { grid-column: span 1; }
-  }
-
-  /* ---- Interviewers ---- */
-  .interviewers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .card-int {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 24px; transition: all .3s ease; position: relative; overflow: hidden;
-  }
-  .card-int:hover { border-color: var(--brand); transform: translateY(-4px); }
-  .avatar {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: var(--grad); display: grid; place-items: center;
-    font-weight: 700; color: white; font-size: 20px; margin-bottom: 16px;
-  }
-  .card-int h4 { font-size: 17px; margin-bottom: 4px; }
-  .card-int .role { color: var(--text-mute); font-size: 13px; margin-bottom: 16px; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .tag {
-    padding: 3px 10px; background: rgba(124,92,255,0.12);
-    border: 1px solid rgba(124,92,255,0.25); border-radius: 999px;
-    font-size: 11px; color: var(--text-dim); font-weight: 500;
-  }
-  .card-int .meta { display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-dim); }
-  .meta strong { color: var(--text); font-weight: 600; }
-  @media (max-width: 900px) { .interviewers { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 500px) { .interviewers { grid-template-columns: 1fr; } }
-
-  /* ---- Pricing ---- */
-  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-  .price-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 36px 28px; position: relative;
-    transition: all .3s ease;
-  }
-  .price-card.featured {
-    border: 1px solid transparent;
-    background:
-      linear-gradient(var(--surface), var(--surface)) padding-box,
-      var(--grad) border-box;
-    transform: scale(1.03);
-    box-shadow: 0 20px 60px rgba(124,92,255,0.2);
-  }
-  .price-card h3 { font-size: 20px; margin-bottom: 8px; }
-  .price-card .desc { color: var(--text-mute); font-size: 14px; margin-bottom: 24px; }
-  .price {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-    font-size: 44px; margin-bottom: 4px;
-  }
-  .price-suffix { color: var(--text-mute); font-size: 14px; margin-bottom: 24px; }
-  .price-card ul { list-style: none; margin: 24px 0; }
-  .price-card li {
-    padding: 10px 0; color: var(--text-dim); font-size: 14px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .price-card li::before {
-    content: "✓"; color: var(--accent-green); font-weight: 700;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: rgba(74,222,128,0.12); display: grid; place-items: center;
-    font-size: 12px; flex-shrink: 0;
-  }
-  .featured-badge {
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--grad); color: white; padding: 4px 12px;
-    border-radius: 999px; font-size: 11px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  @media (max-width: 900px) {
-    .pricing { grid-template-columns: 1fr; }
-    .price-card.featured { transform: scale(1); }
-  }
-
-  /* ---- Testimonials ---- */
-  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .quote {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px; transition: all .3s ease;
-  }
-  .quote:hover { border-color: var(--border-strong); }
-  .quote p {
-    font-size: 15px; color: var(--text); margin-bottom: 20px;
-    line-height: 1.6; font-style: italic;
-  }
-  .quote .who { display: flex; gap: 12px; align-items: center; }
-  .quote .avatar { width: 40px; height: 40px; font-size: 14px; margin: 0; }
-  .quote .who div h5 { font-size: 14px; margin-bottom: 2px; }
-  .quote .who div span { color: var(--text-mute); font-size: 12px; }
-  @media (max-width: 900px) { .quotes { grid-template-columns: 1fr; } }
-
-  /* ---- FAQ ---- */
-  .faq { max-width: 800px; margin: 0 auto; }
-  .faq-item {
-    border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer;
-  }
-  .faq-q {
-    display: flex; justify-content: space-between; align-items: center;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px;
-  }
-  .faq-q::after { content: "+"; font-size: 24px; color: var(--brand-2); transition: transform .3s; }
-  .faq-item.open .faq-q::after { transform: rotate(45deg); }
-  .faq-a {
-    max-height: 0; overflow: hidden; color: var(--text-dim);
-    transition: max-height .4s ease, padding .4s ease; font-size: 15px;
-  }
-  .faq-item.open .faq-a { max-height: 300px; padding-top: 12px; }
-
-  /* ---- CTA ---- */
-  .cta-wrap {
-    padding: 80px 40px; text-align: center; border-radius: 24px;
-    background:
-      linear-gradient(var(--surface), var(--surface)) padding-box,
-      var(--grad) border-box;
-    border: 1px solid transparent; position: relative; overflow: hidden;
-  }
-  .cta-wrap::before {
-    content: ""; position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(124,92,255,0.25) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .cta-wrap h2 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 16px; position: relative; }
-  .cta-wrap p { color: var(--text-dim); font-size: 18px; margin-bottom: 32px; position: relative; }
-  .cta-wrap .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
-
-  /* ---- Footer ---- */
-  footer { border-top: 1px solid var(--border); padding: 60px 0 30px; }
-  .footer-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px;
-  }
-  .footer-brand p { color: var(--text-dim); font-size: 14px; margin-top: 16px; max-width: 300px; }
-  .footer-col h5 {
-    font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--text-mute); margin-bottom: 16px; font-family: 'Inter', sans-serif; font-weight: 600;
-  }
-  .footer-col a {
-    display: block; color: var(--text-dim); font-size: 14px;
-    padding: 6px 0; transition: color .2s;
-  }
-  .footer-col a:hover { color: var(--text); }
-  .footer-bottom {
-    padding-top: 24px; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; color: var(--text-mute); font-size: 13px;
-    flex-wrap: wrap; gap: 12px;
-  }
-  @media (max-width: 700px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  /* ---- Reveal on scroll ---- */
-  .reveal { opacity: 0; transform: translateY(30px); transition: all .8s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-</style>
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <div class="aurora"><div class="blob-3"></div></div>
 <div class="grid-bg"></div>
 
-<nav id="nav">
+<nav class="site-nav" id="nav">
   <div class="container">
-    <a class="logo" href="#">
-      <div class="logo-mark">P</div>
-      <span>Panelist</span>
-    </a>
+    <a class="logo" href="/"><div class="logo-mark">P</div><span>Panelist</span></a>
     <div class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="#interviewers">Interviewers</a>
+      <a href="/companies.html">For Companies</a>
+      <a href="/interviewers.html">For Interviewers</a>
       <a href="#pricing">Pricing</a>
+      <a href="/about.html">About</a>
       <a href="#faq">FAQ</a>
     </div>
     <div class="nav-cta">
@@ -424,11 +46,10 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero">
   <div class="container">
     <div class="badge"><span class="dot"></span> Now onboarding companies in beta</div>
-    <h1>Interviews on demand.<br/><span class="grad">Signal on delivery.</span></h1>
+    <h1>Interviews on demand.<br/><span class="grad-text">Signal on delivery.</span></h1>
     <p>Panelist connects your hiring team with a vetted network of expert interviewers — matched to your JD, calibrated to your bar, and delivering structured feedback in under 24 hours.</p>
     <div class="hero-ctas">
       <a href="#cta" class="btn btn-primary btn-lg">Get started free →</a>
@@ -443,22 +64,15 @@
   </div>
 </header>
 
-<!-- LOGOS -->
 <section class="logos" style="padding: 60px 0;">
   <div class="container">
     <p class="logos-title">Trusted by fast-moving teams</p>
     <div class="logos-inner">
-      <span>◆ Nova</span>
-      <span>▲ Quantic</span>
-      <span>◈ Lumen</span>
-      <span>● Orbit</span>
-      <span>▼ Praxis</span>
-      <span>■ Vertex</span>
+      <span>◆ Nova</span><span>▲ Quantic</span><span>◈ Lumen</span><span>● Orbit</span><span>▼ Praxis</span><span>■ Vertex</span>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section id="how">
   <div class="container">
     <div class="section-head reveal">
@@ -475,7 +89,6 @@
   </div>
 </section>
 
-<!-- FEATURES BENTO -->
 <section id="features">
   <div class="container">
     <div class="section-head reveal">
@@ -484,87 +97,33 @@
       <p>More than interviewers — a full evaluation layer that plugs into your existing ATS and workflow.</p>
     </div>
     <div class="bento">
-      <div class="bento-item wide reveal">
-        <div class="bento-icon">⚡</div>
-        <h3>Match in hours, not weeks</h3>
-        <p>Our smart-match engine pairs your JD with an interviewer whose real-world experience mirrors the role. Every match gets your team's approval before it's booked.</p>
-      </div>
-      <div class="bento-item reveal">
-        <div class="bento-icon">🛡️</div>
-        <h3>Bias-audited rubrics</h3>
-        <p>Every scorecard is structured, evidence-based, and reviewed for fairness.</p>
-      </div>
-      <div class="bento-item reveal">
-        <div class="bento-icon">🔗</div>
-        <h3>ATS integrations</h3>
-        <p>Native connections to Greenhouse, Lever, Ashby, Workday. Zero copy-paste.</p>
-      </div>
-      <div class="bento-item wide reveal">
-        <div class="bento-icon">🎓</div>
-        <h3>Calibrated to your bar</h3>
-        <p>Before an interviewer runs their first real screen, they shadow your team's calibration session. Every panelist speaks your engineering, product, or sales language.</p>
-      </div>
-      <div class="bento-item reveal">
-        <div class="bento-icon">💬</div>
-        <h3>NDA + IP protected</h3>
-        <p>Every interviewer signs a per-engagement NDA and conflict check.</p>
-      </div>
-      <div class="bento-item reveal">
-        <div class="bento-icon">📼</div>
-        <h3>Full recordings</h3>
-        <p>Every session recorded, transcribed, and searchable.</p>
-      </div>
-      <div class="bento-item reveal">
-        <div class="bento-icon">🌐</div>
-        <h3>Global timezone coverage</h3>
-        <p>Interviewers in 24 countries — schedule anywhere, anytime.</p>
-      </div>
+      <div class="bento-item wide reveal"><div class="bento-icon">⚡</div><h3>Match in hours, not weeks</h3><p>Our smart-match engine pairs your JD with an interviewer whose real-world experience mirrors the role. Every match gets your team's approval before it's booked.</p></div>
+      <div class="bento-item reveal"><div class="bento-icon">🛡️</div><h3>Bias-audited rubrics</h3><p>Every scorecard is structured, evidence-based, and reviewed for fairness.</p></div>
+      <div class="bento-item reveal"><div class="bento-icon">🔗</div><h3>ATS integrations</h3><p>Native connections to Greenhouse, Lever, Ashby, Workday. Zero copy-paste.</p></div>
+      <div class="bento-item wide reveal"><div class="bento-icon">🎓</div><h3>Calibrated to your bar</h3><p>Before an interviewer runs their first real screen, they shadow your team's calibration session. Every panelist speaks your engineering, product, or sales language.</p></div>
+      <div class="bento-item reveal"><div class="bento-icon">💬</div><h3>NDA + IP protected</h3><p>Every interviewer signs a per-engagement NDA and conflict check.</p></div>
+      <div class="bento-item reveal"><div class="bento-icon">📼</div><h3>Full recordings</h3><p>Every session recorded, transcribed, and searchable.</p></div>
+      <div class="bento-item reveal"><div class="bento-icon">🌐</div><h3>Global timezone coverage</h3><p>Interviewers in 24 countries — schedule anywhere, anytime.</p></div>
     </div>
   </div>
 </section>
 
-<!-- INTERVIEWERS -->
-<section id="interviewers">
+<section id="interviewers-preview">
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">The panel</span>
       <h2>Real experts. Real roles. Real signal.</h2>
       <p>Every panelist has 6+ years in their domain and passes a 3-stage vetting process.</p>
     </div>
-    <div class="interviewers">
-      <div class="card-int reveal">
-        <div class="avatar">SR</div>
-        <h4>Sanjana R.</h4>
-        <div class="role">Staff Engineer, ex-Stripe</div>
-        <div class="tags"><span class="tag">Backend</span><span class="tag">Distributed</span><span class="tag">Go</span></div>
-        <div class="meta"><span>⭐ <strong>4.9</strong> (287)</span><span><strong>420</strong> interviews</span></div>
-      </div>
-      <div class="card-int reveal">
-        <div class="avatar">MK</div>
-        <h4>Michael K.</h4>
-        <div class="role">Sr PM, ex-Airbnb & Uber</div>
-        <div class="tags"><span class="tag">Product</span><span class="tag">Growth</span><span class="tag">Strategy</span></div>
-        <div class="meta"><span>⭐ <strong>4.8</strong> (194)</span><span><strong>310</strong> interviews</span></div>
-      </div>
-      <div class="card-int reveal">
-        <div class="avatar">AP</div>
-        <h4>Anika P.</h4>
-        <div class="role">Design Lead, ex-Figma</div>
-        <div class="tags"><span class="tag">Design</span><span class="tag">UX Research</span></div>
-        <div class="meta"><span>⭐ <strong>5.0</strong> (152)</span><span><strong>240</strong> interviews</span></div>
-      </div>
-      <div class="card-int reveal">
-        <div class="avatar">DL</div>
-        <h4>David L.</h4>
-        <div class="role">VP Sales, ex-Snowflake</div>
-        <div class="tags"><span class="tag">Enterprise Sales</span><span class="tag">GTM</span></div>
-        <div class="meta"><span>⭐ <strong>4.9</strong> (176)</span><span><strong>290</strong> interviews</span></div>
-      </div>
+    <div class="card-grid">
+      <div class="card reveal"><div class="avatar">SR</div><h4>Sanjana R.</h4><div class="role">Staff Engineer, ex-Stripe</div><div class="tags"><span class="tag">Backend</span><span class="tag">Distributed</span><span class="tag">Go</span></div><div class="meta"><span>⭐ <strong>4.9</strong> (287)</span><span><strong>420</strong> interviews</span></div></div>
+      <div class="card reveal"><div class="avatar">MK</div><h4>Michael K.</h4><div class="role">Sr PM, ex-Airbnb & Uber</div><div class="tags"><span class="tag">Product</span><span class="tag">Growth</span></div><div class="meta"><span>⭐ <strong>4.8</strong> (194)</span><span><strong>310</strong> interviews</span></div></div>
+      <div class="card reveal"><div class="avatar">AP</div><h4>Anika P.</h4><div class="role">Design Lead, ex-Figma</div><div class="tags"><span class="tag">Design</span><span class="tag">UX Research</span></div><div class="meta"><span>⭐ <strong>5.0</strong> (152)</span><span><strong>240</strong> interviews</span></div></div>
+      <div class="card reveal"><div class="avatar">DL</div><h4>David L.</h4><div class="role">VP Sales, ex-Snowflake</div><div class="tags"><span class="tag">Sales</span><span class="tag">GTM</span></div><div class="meta"><span>⭐ <strong>4.9</strong> (176)</span><span><strong>290</strong> interviews</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
 <section id="pricing">
   <div class="container">
     <div class="section-head reveal">
@@ -573,53 +132,13 @@
       <p>No seats, no minimums. Every plan includes recordings, rubrics, and ATS sync.</p>
     </div>
     <div class="pricing">
-      <div class="price-card reveal">
-        <h3>Starter</h3>
-        <p class="desc">Perfect for small teams hiring occasionally.</p>
-        <div class="price">$149</div>
-        <div class="price-suffix">per interview</div>
-        <a href="#cta" class="btn btn-ghost" style="width: 100%; justify-content: center;">Start hiring →</a>
-        <ul>
-          <li>1–10 interviews / month</li>
-          <li>24-hour feedback SLA</li>
-          <li>Standard rubrics</li>
-          <li>Email support</li>
-        </ul>
-      </div>
-      <div class="price-card featured reveal">
-        <div class="featured-badge">Most Popular</div>
-        <h3>Growth</h3>
-        <p class="desc">For teams hiring at scale across roles.</p>
-        <div class="price">$119</div>
-        <div class="price-suffix">per interview</div>
-        <a href="#cta" class="btn btn-primary" style="width: 100%; justify-content: center;">Get started →</a>
-        <ul>
-          <li>Unlimited interviews</li>
-          <li>12-hour feedback SLA</li>
-          <li>Custom rubrics + calibration</li>
-          <li>ATS integrations</li>
-          <li>Dedicated CSM</li>
-        </ul>
-      </div>
-      <div class="price-card reveal">
-        <h3>Enterprise</h3>
-        <p class="desc">For orgs with high-volume, compliance needs.</p>
-        <div class="price">Custom</div>
-        <div class="price-suffix">volume pricing</div>
-        <a href="#cta" class="btn btn-ghost" style="width: 100%; justify-content: center;">Contact sales →</a>
-        <ul>
-          <li>SSO + SCIM</li>
-          <li>DPA, SOC 2, GDPR</li>
-          <li>Private interviewer pools</li>
-          <li>Named panel manager</li>
-          <li>Custom SLAs</li>
-        </ul>
-      </div>
+      <div class="price-card reveal"><h3>Starter</h3><p class="desc">Perfect for small teams hiring occasionally.</p><div class="price">$149</div><div class="price-suffix">per interview</div><a href="#cta" class="btn btn-ghost btn-block">Start hiring →</a><ul><li>1–10 interviews / month</li><li>24-hour feedback SLA</li><li>Standard rubrics</li><li>Email support</li></ul></div>
+      <div class="price-card featured reveal"><div class="featured-badge">Most Popular</div><h3>Growth</h3><p class="desc">For teams hiring at scale across roles.</p><div class="price">$119</div><div class="price-suffix">per interview</div><a href="#cta" class="btn btn-primary btn-block">Get started →</a><ul><li>Unlimited interviews</li><li>12-hour feedback SLA</li><li>Custom rubrics + calibration</li><li>ATS integrations</li><li>Dedicated CSM</li></ul></div>
+      <div class="price-card reveal"><h3>Enterprise</h3><p class="desc">For orgs with high-volume, compliance needs.</p><div class="price">Custom</div><div class="price-suffix">volume pricing</div><a href="#cta" class="btn btn-ghost btn-block">Contact sales →</a><ul><li>SSO + SCIM</li><li>DPA, SOC 2, GDPR</li><li>Private interviewer pools</li><li>Named panel manager</li><li>Custom SLAs</li></ul></div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section>
   <div class="container">
     <div class="section-head reveal">
@@ -627,108 +146,86 @@
       <h2>The signal we needed. Without the interview tax.</h2>
     </div>
     <div class="quotes">
-      <div class="quote reveal">
-        <p>"We cut our engineer interview load by 60% and improved our onsite pass rate. Panelist just… works."</p>
-        <div class="who"><div class="avatar">JM</div><div><h5>Jessie Morgan</h5><span>Head of Talent, Nova</span></div></div>
-      </div>
-      <div class="quote reveal">
-        <p>"The feedback quality is genuinely better than what our own engineers produce. Structured, evidence-based, no hand-waving."</p>
-        <div class="who"><div class="avatar">RT</div><div><h5>Rahul Thakur</h5><span>VP Engineering, Quantic</span></div></div>
-      </div>
-      <div class="quote reveal">
-        <p>"We hired a Head of Sales in 3 weeks. Two of our final candidates were validated by Panelist first — game changer for exec search."</p>
-        <div class="who"><div class="avatar">EK</div><div><h5>Elena Kovacs</h5><span>Founder, Orbit Labs</span></div></div>
-      </div>
+      <div class="quote reveal"><p>"We cut our engineer interview load by 60% and improved our onsite pass rate. Panelist just… works."</p><div class="who"><div class="avatar">JM</div><div><h5>Jessie Morgan</h5><span>Head of Talent, Nova</span></div></div></div>
+      <div class="quote reveal"><p>"The feedback quality is genuinely better than what our own engineers produce. Structured, evidence-based, no hand-waving."</p><div class="who"><div class="avatar">RT</div><div><h5>Rahul Thakur</h5><span>VP Engineering, Quantic</span></div></div></div>
+      <div class="quote reveal"><p>"We hired a Head of Sales in 3 weeks. Two of our final candidates were validated by Panelist first — game changer for exec search."</p><div class="who"><div class="avatar">EK</div><div><h5>Elena Kovacs</h5><span>Founder, Orbit Labs</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
 <section id="faq">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">FAQ</span>
-      <h2>Questions, answered.</h2>
-    </div>
+    <div class="section-head reveal"><span class="eyebrow">FAQ</span><h2>Questions, answered.</h2></div>
     <div class="faq">
       <div class="faq-item"><div class="faq-q">How do you vet interviewers?</div><div class="faq-a">Every panelist passes a 3-stage vetting process: credential verification, a mock interview against our internal rubric, and a calibration session with a senior Panelist reviewer. We accept less than 8% of applicants.</div></div>
       <div class="faq-item"><div class="faq-q">What roles do you cover?</div><div class="faq-a">Engineering (all stacks), product, design, data science, sales, marketing, operations, and executive search. If we don't have coverage for a niche role, we'll source and calibrate a specialist within 5 business days.</div></div>
       <div class="faq-item"><div class="faq-q">How is this different from Karat or Interviewing.io?</div><div class="faq-a">Panelist is multi-domain (not just engineering), offers deeper calibration to your team's specific rubric, and delivers structured evidence over binary pass/fail. We also cover senior and executive roles that most competitors don't.</div></div>
       <div class="faq-item"><div class="faq-q">How do you handle NDAs and IP?</div><div class="faq-a">Every engagement is covered by a per-interview NDA and conflict-of-interest check. Interviewers cannot work with direct competitors during an active engagement window.</div></div>
-      <div class="faq-item"><div class="faq-q">Can we bring our own rubric?</div><div class="faq-a">Absolutely — Growth and Enterprise plans include a calibration session where our team learns your rubric, your team's "look-fors," and past hiring bar. New panelists shadow live calibrated interviews before flying solo on your account.</div></div>
+      <div class="faq-item"><div class="faq-q">Can we bring our own rubric?</div><div class="faq-a">Absolutely — Growth and Enterprise plans include a calibration session where our team learns your rubric, your team's "look-fors," and past hiring bar.</div></div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
 <section id="cta">
   <div class="container">
     <div class="cta-wrap reveal">
       <h2>Ready to reclaim your team's time?</h2>
-      <p>Book a 20-minute demo. See the panel. Run a pilot in 5 days.</p>
-      <div class="btns">
-        <a href="mailto:hello@panelist.io" class="btn btn-primary btn-lg">Book a demo →</a>
-        <a href="#" class="btn btn-ghost btn-lg">Talk to sales</a>
-      </div>
+      <p>Tell us about your hiring needs. We'll respond within one business day.</p>
+
+      <!-- REPLACE the action URL with your Formspree endpoint after signup at formspree.io -->
+      <form class="form" data-async action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="text-align:left; margin-top:32px;">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" required placeholder="Adi Kumar" />
+          </div>
+          <div class="form-group">
+            <label for="email">Work email</label>
+            <input type="email" id="email" name="email" required placeholder="adi@yourco.com" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" required placeholder="Your company" />
+          </div>
+          <div class="form-group">
+            <label for="hires">Monthly hires</label>
+            <select id="hires" name="hires" required>
+              <option value="">Select…</option>
+              <option>1–5</option><option>6–20</option><option>21–50</option><option>50+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label for="msg">What roles are you hiring for?</label>
+          <textarea id="msg" name="message" placeholder="e.g. Senior backend engineers, Product Managers…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Book a demo →</button>
+        <small>By submitting you agree to our <a href="/privacy.html" style="color:var(--brand-2)">Privacy Policy</a>.</small>
+      </form>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
+<footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo"><div class="logo-mark">P</div><span>Panelist</span></div>
         <p>Interviews on demand. Signal on delivery. Built for hiring teams that value their time.</p>
       </div>
-      <div class="footer-col">
-        <h5>Product</h5>
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#interviewers">Interviewers</a>
-        <a href="#">Integrations</a>
-      </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <a href="#">About</a>
-        <a href="#">Careers</a>
-        <a href="#">Blog</a>
-        <a href="#">Press</a>
-      </div>
-      <div class="footer-col">
-        <h5>Resources</h5>
-        <a href="#">Become an interviewer</a>
-        <a href="#">Help center</a>
-        <a href="#">Contact</a>
-        <a href="#">Security</a>
-      </div>
+      <div class="footer-col"><h5>Product</h5><a href="/companies.html">For Companies</a><a href="#pricing">Pricing</a><a href="#interviewers-preview">Interviewers</a><a href="#features">Features</a></div>
+      <div class="footer-col"><h5>Company</h5><a href="/about.html">About</a><a href="/interviewers.html">Become an Interviewer</a><a href="#cta">Contact</a></div>
+      <div class="footer-col"><h5>Legal</h5><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Panelist Inc. All rights reserved.</span>
-      <span>Made with intent • hello@panelist.io</span>
+      <span>hello@panelist.io</span>
     </div>
   </div>
 </footer>
 
-<script>
-  // Nav scroll
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  // Reveal on scroll
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // FAQ toggle
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('click', () => item.classList.toggle('open'));
-  });
-</script>
-
+<script src="/script.js"></script>
 </body>
 </html>
