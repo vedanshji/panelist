@@ -1,10 +1,10 @@
-# Panelist
+<img width="1919" height="856" alt="image" src="https://github.com/user-attachments/assets/c3fb4264-d10e-466c-a3c6-1ef6a58a9f2b" /># Panelist
 
 > Interviews on demand. Signal on delivery.
 
 Marketing site for **Panelist** — a marketplace of vetted expert interviewers who run first- and second-round interviews for hiring teams and deliver structured, evidence-based feedback in under 24 hours.
 
-Live at: **https://YOUR-USERNAME.github.io/panelist/** (update after deploy)
+Live at: **https://vedanshji.github.io/panelist/** (update after deploy)
 
 ## Stack
 
